@@ -2,7 +2,7 @@ name: Daily Stock Morning
 
 on:
   schedule:
-    - cron: '0 0 8 * * *'   # 每天北京时间早上8点
+    - cron: '0 0 0 8 * *'   # 每天北京时间早上 8:00（6个字段）
   workflow_dispatch:        # 允许手动触发
 
 jobs:
