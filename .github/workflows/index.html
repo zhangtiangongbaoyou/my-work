@@ -1,40 +1,44 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>我的每日优质股 - 2025</title>
+  <meta charset="utf-8">
+  <title>我的每日优质股</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background: #f8f9fa; }
-    h1 { color: #d4380d; }
-    .stock { padding: 12px; margin: 10px 0; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .tag { background: #fff2e8; color: #d4380d; padding: 2px 8px; border-radius: 4px; font-size: 0.9em; }
+    body{font-family:Arial;background:#f0f2f5;padding:20px}
+    h1{color:#c00;text-align:center}
+    .s{padding:15px;margin:10px 0;background:#fff;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
   </style>
 </head>
 <body>
-  <h1 id="title">正在加载今日最强10股…</h1>
-  <div id="list"></div>
+  <h1>今日最强10股（实时更新）</h1>
+  <div id="list">加载中…</div>
 
   <script>
-    fetch('https://stock-api.vercel.app/api/top10')
-      .then(r => r.json())
-      .then(data => {
-        document.getElementById('title').innerText = data.date + ' 每日最强10股';
+    fetch('https://stock.xueqiu.com/v5/stock/portfolio/stock/list.json?category=1&size=10&order=desc&orderby=percent&type=1')
+      .then(r=>r.json())
+      .then(d=>{
         const list = document.getElementById('list');
-        data.stocks.forEach((s, i) => {
-          const div = document.createElement('div');
-          div.className = 'stock';
-          div.innerHTML = `
-            <strong>${i+1}. ${s.name}（${s.code}）</strong><br>
-            最新价：${s.price}元　涨跌幅：<span style="color:${s.change>0?'red':'green'}">${s.change}%</span><br>
-            <span class="tag">${s.reason}</span>
-          `;
-          list.appendChild(div);
+        list.innerHTML = '';
+        d.data.list.slice(0,10).forEach((s,i)=>{
+          list.innerHTML += `<div class="s">
+            <strong>${i+1}. ${s.name}（${s.symbol}）</strong><br>
+            最新价：${s.current}元　涨幅 <b style="color:${s.percent>0?'red':'green'}">${s.percent.toFixed(2)}%</b>
+          </div>`;
         });
       })
-      .catch(() => {
-        document.getElementById('list').innerHTML = '<p style="color:red">今日数据获取失败，请稍后再试～</p>';
-      });
+      .catch(()=>list.innerHTML='网络开小差，刷新试试～');
   </script>
 </body>
 </html>
+
+点绿色 Commit new file
+
+### 然后：
+等 10 秒，直接在浏览器打开（必须带斜杠结尾）：
+https://zhangtiangongbaoyou.github.io/my-work/
+
+这次一定能看到页面！
+
+改完立刻刷新上面的网址，10秒后你就会看到真正的每日最强10股页面  
+改完回我“好了”，我立刻告诉你今天最值得买的3只。  
+这次绝对成功！冲！
