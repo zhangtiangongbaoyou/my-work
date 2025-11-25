@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的每日优质股 - 2025</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f8f9fa; }
+    h1 { color: #d4380d; }
+    .stock { padding: 12px; margin: 10px 0; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .tag { background: #fff2e8; color: #d4380d; padding: 2px 8px; border-radius: 4px; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <h1 id="title">正在加载今日最强10股…</h1>
+  <div id="list"></div>
+
+  <script>
+    fetch('https://stock-api.vercel.app/api/top10')
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('title').innerText = data.date + ' 每日最强10股';
+        const list = document.getElementById('list');
+        data.stocks.forEach((s, i) => {
+          const div = document.createElement('div');
+          div.className = 'stock';
+          div.innerHTML = `
+            <strong>${i+1}. ${s.name}（${s.code}）</strong><br>
+            最新价：${s.price}元　涨跌幅：<span style="color:${s.change>0?'red':'green'}">${s.change}%</span><br>
+            <span class="tag">${s.reason}</span>
+          `;
+          list.appendChild(div);
+        });
+      })
+      .catch(() => {
+        document.getElementById('list').innerHTML = '<p style="color:red">今日数据获取失败，请稍后再试～</p>';
+      });
+  </script>
+</body>
+</html>
