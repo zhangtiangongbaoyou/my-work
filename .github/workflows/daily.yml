@@ -2,7 +2,7 @@ name: Daily Stock Morning
 
 on:
   schedule:
-    - cron: '0 8 * * *'   # 每天UTC 08:00（北京时间16:00），测试时手动跑
+    - cron: '0 0 * * *'   # 每天 UTC 00:00（北京时间 08:00）
   workflow_dispatch:        # 允许手动触发测试
 
 jobs:
@@ -16,10 +16,10 @@ jobs:
         with:
           python-version: '3.11'
       
-      - name: Install dependencies
+      - name: Install requests
         run: pip install requests
       
-      - name: Run script
+      - name: Run stock news script
         env:
           SCTKEY: ${{ secrets.SCTKEY }}
         run: python main.py
