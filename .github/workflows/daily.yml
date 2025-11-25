@@ -2,24 +2,24 @@ name: Daily Stock Morning
 
 on:
   schedule:
-    - cron: '0 0 * * *'   # 每天 UTC 00:00（北京时间 08:00）
-  workflow_dispatch:        # 允许手动触发测试
+    - cron: 0 0 * * *        # 每天 UTC 0 点 = 北京时间早上 8 点
+  workflow_dispatch:
 
 jobs:
   send-news:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
-      
+          python-version: '3.12'
+
       - name: Install requests
         run: pip install requests
-      
-      - name: Run stock news script
+
+      - name: Run script
         env:
           SCTKEY: ${{ secrets.SCTKEY }}
         run: python main.py
