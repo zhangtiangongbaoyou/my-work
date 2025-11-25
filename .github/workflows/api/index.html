@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>我的每日优质股 - 2025</title>
+  <style>body{font-family:Arial;margin:20px;background:#f0f2f5}h1{color:#c00}.s{padding:15px;margin:10px 0;background:#fff;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}</style>
+</head>
+<body>
+  <h1>今日最强10股（实时更新）</h1>
+  <div id="list">加载中…</div>
+
+  <script>
+    // 免费公共API，每天自动更新
+    fetch('https://stock.xueqiu.com/v5/stock/portfolio/stock/list.json?category=1&size=10&order=desc&orderby=percent&type=1')
+      .then(r=>r.json())
+      .then(d=>{
+        const list = document.getElementById('list');
+        list.innerHTML = '';
+        d.data.list.slice(0,10).forEach((s,i)=>{
+          list.innerHTML += `<div class="s">
+            <strong>${i+1}. ${s.name}（${s.symbol}）</strong><br>
+            最新价：${s.current}元　涨幅 <b style="color:${s.percent>0?'red':'green'}">${s.percent.toFixed(2)}%</b><br>
+            理由：${s.note||'强势上涨中'}
+          </div>`;
+        });
+      });
+  </script>
+  <p style="color:#666">每天访问此页面即可看到最新10只强势股 | 2025版</p>
+</body>
+</html>
